@@ -36,7 +36,7 @@ class UserGroupsViewset(mixins.RetrieveModelMixin,
     修改当前用户的角色
     """
     queryset = User.objects.all()
-    # serializer_class = GroupSerializer
+    serializer_class = GroupSerializer
 
     def retrieve(self, request, *args, **kwargs):
         user_obj = self.get_object()
