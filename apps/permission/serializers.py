@@ -83,4 +83,5 @@ class NodeInfoSerializer(serializers.ModelSerializer):
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Permission
-        fields = "__all__"
+        fields = ("codename", "desc")
+        # fields = "__all__"

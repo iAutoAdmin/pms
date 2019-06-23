@@ -13,14 +13,14 @@ class UserSerializer(serializers.ModelSerializer):
     name        = serializers.CharField(required=False, read_only=False, label="姓名", help_text="姓名")
     is_active   = serializers.BooleanField(required=False, label="登陆状态", help_text="登陆状态")
     email       = serializers.CharField(read_only=True, help_text="联系邮箱")
-    last_login  = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True, help_text="上次登录时间")
+    last_login  = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", help_text="上次登录时间")
     phone       = serializers.CharField(required=False, max_length=11, min_length=11, allow_null=True, help_text="手机号",
-                                        error_messages={"max_length": "手机号错误", "min_length":"手机号错误"},
+                                        error_messages={"max_length": "手机号错误", "min_length": "手机号错误"},
                                         )
 
     class Meta:
         model = User
-        fields = ("id", "username", "name", "phone", "email", "is_active", "last_login", "groups")
+        fields = ("id", "username", "name", "phone", "email", "is_active", "last_login")
 
 class UserInfoSerializer(serializers.Serializer):
     """

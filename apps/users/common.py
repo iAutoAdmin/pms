@@ -4,6 +4,9 @@ User = get_user_model()
 
 def get_user_obj(uid):
     try:
-        return User.objects.get(pk=uid)
+        for id in uid:
+            if User.objects.get(pk=id):
+                pass
+        return uid
     except User.DoesNotExist:
         return None
