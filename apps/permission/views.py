@@ -1,9 +1,12 @@
 from rest_framework import viewsets, mixins, response, status, permissions
 from .models import PerAppName, NodeInfo, Permission
 from .serializers import PerAppNameSerializer, NodeInfoSerializer, AuthPerSerializer, PermissionSerializer
+from groups.serializers import GroupSerializer
 from rest_framework.pagination import PageNumberPagination
 from .filter import PerAppNameFilter, NodeinfoFilter, PermissionFilter
 from django.http import JsonResponse
+from rest_framework.response import Response
+from django.db.models import Q
 
 
 class PerAppNameViewSet(viewsets.ModelViewSet):
@@ -13,8 +16,6 @@ class PerAppNameViewSet(viewsets.ModelViewSet):
     """
     queryset = PerAppName.objects.all()
     serializer_class = PerAppNameSerializer
-    pagination_class = PageNumberPagination
-    # permission_classes = (permissions.IsAuthenticated,)
     filter_class = PerAppNameFilter
     filter_fields = ("app_name")
 
@@ -24,10 +25,8 @@ class AuthPerViewSet(viewsets.ReadOnlyModelViewSet):
     create:
     权限验证
     """
-    # permission_classes = (permissions.IsAuthenticated,)
     queryset = PerAppName.objects.all()
     serializer_class = AuthPerSerializer
-    pagination_class = PageNumberPagination
 
     def create(self, request, *args, **kwargs):
         app_key = request.data.get('app_key', None)
@@ -40,12 +39,10 @@ class AuthPerViewSet(viewsets.ReadOnlyModelViewSet):
                     "app_name": per_obj.app_name,
                     "msg": '授权成功'
                 }
-                # return JsonResponse(ret, safe=True)
                 return response.Response(ret)
             else:
                 return JsonResponse({"code": 1, "app_name": per_obj.app_name, "msg": "权限验证失败"}, safe=True)
         except PerAppName.DoesNotExist:
-            # return JsonResponse({"status": 0, "msg": "授权失败"}, safe=True)
             return response.Response({"status": 0, "msg": "授权失败"})
 
 
@@ -153,8 +150,6 @@ class PermissionViewSet(viewsets.ModelViewSet):
     """
     queryset = Permission.objects.all()
     serializer_class = PermissionSerializer
-    pagination_class = PageNumberPagination
-    # permission_classes = (permissions.IsAuthenticated,)
     filter_class = PermissionFilter
     filter_fields = ("codename")
 

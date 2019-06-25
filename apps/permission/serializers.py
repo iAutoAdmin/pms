@@ -81,7 +81,14 @@ class NodeInfoSerializer(serializers.ModelSerializer):
 
 
 class PermissionSerializer(serializers.ModelSerializer):
+
+    def validate_codename(self, codename):
+        try:
+            Permission.objects.get(username=codename)
+            return serializers.ValidationError("名称已存在")
+        except Permission.DoesNotExist:
+            return Permission
+
     class Meta:
         model = Permission
-        fields = ("codename", "desc")
-        # fields = "__all__"
+        fields = ("id", "codename", "desc")
