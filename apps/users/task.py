@@ -44,9 +44,10 @@ class sync_user(object):
         headers = {"Authorization": "JWT " + self.get_token()}
         for i in range(1, 10):
             r = requests.get("http://101.200.61.189:52131/users/?page={}".format(i), headers=headers)
-            if len(r.json()['results']) < 10:
-                break
-            data.extend(r.json()['results'])
+            if r.status_code == 200:
+                if len(r.json()['results']) < 10:
+                    break
+                data.extend(r.json()['results'])
         return data
 
     # def get_user(self):
