@@ -151,12 +151,12 @@ class GroupPermissionViewset(mixins.RetrieveModelMixin,
     def update(self, request, *args, **kwargs):
         ret = {"status": 0}
         group_obj = self.get_object()
-        userobj = get_permission_obj(request.data.getlist("pid", 0))
-        if userobj is None:
+        per_obj = get_permission_obj(request.data.getlist("pid", 0))
+        if per_obj is None:
             ret["status"] = 1
             ret["errmsg"] = "权限错误"
         else:
-            for id in userobj:
+            for id in per_obj:
                 group_obj.pms_group.add(id)
         return Response(ret, status=status.HTTP_200_OK)
 
