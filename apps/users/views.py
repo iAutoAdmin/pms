@@ -3,6 +3,7 @@ from rest_framework import mixins, viewsets, permissions, response, status
 from .serializers import UserSerializer, UserInfoSerializer
 from .filter import UserFilter
 from rest_framework.pagination import PageNumberPagination
+from pms.paginations import Pagination
 from permission.models import Permission
 from .task import sync_user
 
@@ -18,11 +19,9 @@ class UsersViewset(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    pagination_class = PageNumberPagination
     # permission_classes = (permissions.IsAuthenticated,)
     filter_class = UserFilter
     filter_fields = ("username",)
-    # api页面通过username字段来搜索
     extra_perms_map = {
         "GET": ["users.show_user_list"]
     }
@@ -31,13 +30,11 @@ class UsersViewset(viewsets.ModelViewSet):
         queryset = super(UsersViewset, self).get_queryset()
         queryset = queryset.order_by("id")
         queryset = queryset.exclude(is_superuser=True)
-        # 过滤出拥有超级管理员的用户
         return queryset
 
 class UserInfoViewset(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserInfoSerializer
-    pagination_class = PageNumberPagination
 
     # permission_classes = (permissions.IsAuthenticated,)
 

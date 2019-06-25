@@ -175,7 +175,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
-    "DEFAULT_PAGINATION_class": "rest_framework.pagination.PageNumberPagination",
+    # "DEFAULT_PAGINATION_class": "rest_framework.pagination.PageNumberPagination",
+    'DEFAULT_PAGINATION_CLASS': 'pms.paginations.Pagination',
     "PAGE_SIZE": 10,
 }
 

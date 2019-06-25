@@ -44,13 +44,24 @@ class sync_user(object):
         headers = {"Authorization": "JWT " + self.get_token()}
         for i in range(1, 10):
             r = requests.get("http://101.200.61.189:52131/users/?page={}".format(i), headers=headers)
-            if r.json(['results']):
-                data.extend(r.json()['results'])
+            if len(r.json()['results']) < 10:
+                break
+            data.extend(r.json()['results'])
         return data
+
+    # def get_user(self):
+    #     data = []
+    #     headers = {"Authorization": "JWT " + self.get_token()}
+    #     r = requests.get("http://101.200.61.189:52131/users/?page={}".format(5), headers=headers)
+    #     print(r.json())
+    #     if r.json().get('results', 0):
+    #         pass
+    #     return data
 
     def create_user(self):
         data = self.get_user
-        print(data)
+        if len(data) <= 0:
+            return {"status": 0}
         user_obj = User()
         ret = {}
         try:
@@ -72,6 +83,6 @@ class sync_user(object):
 
 if __name__ == '__main__':
     info = sync_user()
-    print(info.get_token())
-    print(info.get_user)
-    info.create_user()
+    # print(info.get_token())
+    # info.get_user()
+    # info.create_user()

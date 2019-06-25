@@ -15,7 +15,6 @@ User = get_user_model()
 class GroupViewset(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    pagination_class = PageNumberPagination
     # permission_classes = (permissions.IsAuthenticated,)
     filter_class = GroupFilter
     filter_fields = ['name']
