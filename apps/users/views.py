@@ -2,12 +2,11 @@ from django.contrib.auth import get_user_model
 from rest_framework import mixins, viewsets, permissions, response, status
 from .serializers import UserSerializer, UserInfoSerializer
 from .filter import UserFilter
-from rest_framework.pagination import PageNumberPagination
-from pms.paginations import Pagination
 from permission.models import Permission
 from .task import sync_user
-
+from rest_framework import permissions
 User = get_user_model()
+
 
 
 class UsersViewset(viewsets.ModelViewSet):
@@ -19,7 +18,7 @@ class UsersViewset(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    # permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = [MyPermission, ]
     filter_class = UserFilter
     filter_fields = ("username",)
     extra_perms_map = {
@@ -35,8 +34,6 @@ class UsersViewset(viewsets.ModelViewSet):
 class UserInfoViewset(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserInfoSerializer
-
-    # permission_classes = (permissions.IsAuthenticated,)
 
     def list(self, request, *args, **kwargs):
         res = []

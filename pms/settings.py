@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'permission.apps.PremissionsConfig',
     'rest_framework',
     'django_filters',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -60,9 +61,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-MIDDLEWARE_CLASSES = [
-    'apps.permission.middleware.TokenMiddleware',
-]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
@@ -172,10 +170,13 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication'
+    ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
-    # "DEFAULT_PAGINATION_class": "rest_framework.pagination.PageNumberPagination",
     'DEFAULT_PAGINATION_CLASS': 'pms.paginations.Pagination',
     "PAGE_SIZE": 10,
 }

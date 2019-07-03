@@ -1,12 +1,10 @@
 from rest_framework import viewsets, mixins, response, status, permissions
 from .models import PerAppName, NodeInfo, Permission
 from .serializers import PerAppNameSerializer, NodeInfoSerializer, AuthPerSerializer, PermissionSerializer
-from groups.serializers import GroupSerializer
 from rest_framework.pagination import PageNumberPagination
 from .filter import PerAppNameFilter, NodeinfoFilter, PermissionFilter
 from django.http import JsonResponse
-from rest_framework.response import Response
-from django.db.models import Q
+
 
 
 class PerAppNameViewSet(viewsets.ModelViewSet):
@@ -29,8 +27,8 @@ class AuthPerViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = AuthPerSerializer
 
     def create(self, request, *args, **kwargs):
-        app_key = request.data.get('app_key', None)
-        app_name = request.data.get('app_name', None)
+        app_key = request.POST.get('app_key', None)
+        app_name = request.POST.get('app_name', None)
         try:
             per_obj = PerAppName.objects.get(app_key=app_key)
             if app_name == per_obj.app_name:
@@ -64,7 +62,6 @@ class NodeInfoViewSet(viewsets.ModelViewSet):
     queryset = NodeInfo.objects.all()
     # permission_classes = (permissions.IsAuthenticated,)
     serializer_class = NodeInfoSerializer
-    pagination_class = PageNumberPagination
     filter_class = NodeinfoFilter
     filter_fields = ("node_name")
 

@@ -13,7 +13,5 @@ class User(AbstractUser):
         ordering = ["id"]
         db_table = 'auth_user'
 
-
     def __str__(self):
         return self.username
-

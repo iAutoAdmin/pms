@@ -31,6 +31,7 @@ class NodeInfo(models.Model):
 class Permission(models.Model):
     codename = models.CharField("权限简称", max_length=32, help_text="权限简称")
     desc = models.CharField("权限描述信息", max_length=32, help_text="权限描述信息")
+    app = models.CharField("APP名称", max_length=32, help_text="APP名称")
     groups = models.ManyToManyField(Group, verbose_name="用户组关联权限", related_name="pms_group", help_text="用户组关联权限")
 
     def __str__(self):

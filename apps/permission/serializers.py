@@ -91,4 +91,4 @@ class PermissionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Permission
-        fields = ("id", "codename", "desc")
+        fields = ("id", "codename", "desc", "app")
