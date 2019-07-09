@@ -39,7 +39,7 @@ class AuthPerViewSet(viewsets.ReadOnlyModelViewSet):
                 }
                 return response.Response(ret)
             else:
-                return JsonResponse({"code": 1, "app_name": per_obj.app_name, "msg": "权限验证失败"}, safe=True)
+                return response.Response({"status": 0, "app_name": per_obj.app_name, "msg": "权限验证失败"})
         except PerAppName.DoesNotExist:
             return response.Response({"status": 0, "msg": "授权失败"})
 
