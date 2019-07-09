@@ -20,10 +20,9 @@ class TokenMiddleware(MiddlewareMixin):
                     data = {'app_key': app_key, 'app_name': app_name}
                     r = requests.post("http://101.200.61.189:8888/authper/", data=data)
                     if r.json()['status'] == 1:
-                        pass
+                        return HttpResponseAuthenticationFailed(r.text)
                     else:
-                        content = r.text
-                        return HttpResponseAuthenticationFailed(content)
+                        return HttpResponseAuthenticationFailed(r.text)
                 else:
                     # 去sso认证用户是否存在
                     Authorization = request.headers["Authorization"]
@@ -36,8 +35,8 @@ class TokenMiddleware(MiddlewareMixin):
                             content = {"detail": "User verification does not pass."}
                             return HttpResponseAuthenticationFailed(json.dumps(content))
             except:
-                # pass
-                content = {"detail": "Authentication credentials were not provided."}
-                return HttpResponseAuthenticationFailed(json.dumps(content))
+                pass
+                # content = {"detail": "Authentication credentials were not provided."}
+                # return HttpResponseAuthenticationFailed(json.dumps(content))
 
 
