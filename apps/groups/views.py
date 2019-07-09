@@ -58,7 +58,7 @@ class GroupMembersViewset(mixins.RetrieveModelMixin,
     def update(self, request, *args, **kwargs):
         ret = {"status": 0}
         group_obj = self.get_object()
-        userobj = get_user_obj(request.data.get("uid", 0))
+        userobj = get_user_obj(request.data.getlist("uid", 0))
         if userobj is None:
             ret["status"] = 1
             ret["errmsg"] = "用户错误"
