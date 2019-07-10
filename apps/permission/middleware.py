@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.utils.deprecation import MiddlewareMixin
 import requests
 import json
@@ -19,9 +19,7 @@ class TokenMiddleware(MiddlewareMixin):
                 if app_name and app_key:
                     data = {'app_key': app_key, 'app_name': app_name}
                     r = requests.post("http://101.200.61.189:8888/authper/", data=data)
-                    if r.json()['status'] == 1:
-                        return HttpResponseAuthenticationFailed(r.text)
-                    else:
+                    if r.json()['status'] != 1:
                         return HttpResponseAuthenticationFailed(r.text)
                 else:
                     # 去sso认证用户是否存在
