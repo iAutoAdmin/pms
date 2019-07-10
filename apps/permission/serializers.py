@@ -84,10 +84,10 @@ class PermissionSerializer(serializers.ModelSerializer):
 
     def validate_codename(self, codename):
         try:
-            Permission.objects.get(username=codename)
+            Permission.objects.get(codename=codename)
             return serializers.ValidationError("名称已存在")
         except Permission.DoesNotExist:
-            return Permission
+            return codename
 
     class Meta:
         model = Permission
